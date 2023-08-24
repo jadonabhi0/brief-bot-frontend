@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="./content.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>BriefBot</title>
+</head>
+
+<body>
+    <div class="fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+            <img src="./images/icon128.png" width="30" height="24" alt="">
+            <a class="navbar-brand" href="#">BriefBot</a>
+
+            <div class="collapse navbar-collapse d-flex justify-content-between " id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav mr-auto flex-right mx-2">
+                    <li class="nav-item active">
+                        <button onclick={handelDarktheme()} class="btn btn-danger btn-sm mx-2">Dark Mode</button>
+                    </li>
+                    <div class="severator"></div>
+                    <li class="nav-item active">
+                        <button class="btn btn-sm mx-2"
+                            style="background-color:rgb(20, 213, 188); color:white; border:none" ;><img
+                                src="./images/refresh.gif" alt="A GIF image" width="20" height="20" border:none
+                                style="border: 1px solid black;">Refresh</button>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <div class="preview-body d-flex justify-content-between">
+            <div>
+                <button class="btn btn-outline-danger btn-sm mx-2" color:black>Copy text</button>
+                <button class="btn btn-outline-danger btn-sm mx-2">Summarize</button>
+                <button class="btn btn-outline-danger btn-sm mx-2">Key sentences</button>
+            </div>
+            <div class="mx-3">
+                <span>
+                    <b>
+                        <p>Words : 0 </p>
+                    </b>
+                </span>
+                <span> </span>
+                <span>
+                    <b>
+                        <p>Characters : 0</p>
+                    </b>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-content container" id="text-content-dark">
+        <div class="container heading-container text-center">
+            <p>Welcome to BriefBot</p>
+            <p>Your Ultimate Productivity Extension!</p>
+        </div>
+        <div class="container text-black-50 heading-para">
+            <p>Streamline your work and boost your productivity with BriefBot, the cutting-edge browser extension
+                designed to transform the way you gather, organize, and utilize information. Whether you're a student, a
+                professional, or someone who simply wants to manage their online research more effectively, BriefBot is
+                your go-to solution.</p>
+            <p>BriefBot is here to revolutionize your online research experience. Our intelligent extension empowers
+                you.</p>
+        </div>
+    </div>
+
+    <footer class="footer-section">
+        <div class="container" width:50%>
+            <div class="footer-cta pt-5 pb-5">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="cta-text">
+                                <h4>Find us</h4>
+                                <span>Vill and post Amour, Nagla jeevan, Uttar Pradesh</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="fas fa-phone"></i>
+                            <div class="cta-text">
+                                <h4>Call us</h4>
+                                <span>8979040749</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4 mb-30">
+                        <div class="single-cta">
+                            <i class="far fa-envelope-open"></i>
+                            <div class="cta-text">
+                                <h4>Mail us</h4>
+                                <span>jadonabhi0@gmail.com</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="copyright-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 text-center text-lg-left">
+                        <div class="copyright-text">
+                            <p>Copyright &copy; 2023, All Right Reserved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
