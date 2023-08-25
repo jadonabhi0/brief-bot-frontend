@@ -1,11 +1,12 @@
 
 let darkTheme = document.getElementById("theme-button");
-// console.log(darkTheme)
+console.log(darkTheme)
 
 //this is the function switching the dark and light mode
 darkTheme.addEventListener("click", () => {
     let tab = document.getElementById("top-tab");
     let btn = document.getElementById("theme-button");
+    let model = document.getElementById("model")
     if (document.body.classList.contains("dark-theme")) {
 
         // setting the light mode
@@ -17,6 +18,7 @@ darkTheme.addEventListener("click", () => {
         tab.classList.add("text-dark")
         tab.classList.add("bg-top-tab-color")
         btn.textContent = "Dark Mode"
+        model.classList.remove("model-bg");
     }
     else {
         //setting the dark mode
@@ -28,22 +30,80 @@ darkTheme.addEventListener("click", () => {
         tab.classList.add("text-light")
         tab.classList.add("bg-dark")
         btn.textContent = "Light Mode"
+        model.classList.add("model-bg")
     }
 });
 
-// for showing the model popup
-let modelPopUp = () => {
-    let model = document.querySelector(".model");
-    console.log(model);
-}
-modelPopUp();
+
+//fetching the model popup
+let model = document.getElementById("model");
+
+// flag that defines the contentType present
+let contentType = "summary";
 
 // for triggering the summary popup
 let allSummaryBtn = document.querySelector(".summary-btn");
-console.log(allSummaryBtn)
-
+let count1 = 1;
 allSummaryBtn.addEventListener("click", () => {
-    console.log("hello i am clicked")
+    if (!model.classList.contains("show-model")) {
+        model.classList.add("show-model")
+        // load the allSummary
+    } else {
+        if (contentType === "summary" && count1 === 1) {
+            // if summary is already present
+            count1++
+        } else {
+            // load all summary and remove key-sentences
+        }
+    }
 });
 
+
+// for triggering the key-sentences summary
+let keySummary = document.getElementById("key-summary-btn");
+let count2 = 1;
+keySummary.addEventListener("click", () => {
+    if (!model.classList.contains("show-model")) {
+        model.classList.add("show-model")
+        // load the keySummary
+    } else {
+        if (contentType === "keySummary" && count2 === 1) {
+            // if summary is already present
+            count2++
+        } else {
+            // load key-summary and remove all summary
+        }
+    }
+});
+
+
+// working on the close button
+let closeBtn = document.getElementById("close-btn");
+closeBtn.addEventListener("click", () => {
+    model.classList.remove("show-model");
+})
+
+
+// function to copy text to clipboard
+function copyTextOnButtonClick(divId) {
+    var contentDiv = document.getElementById(divId);
+
+    // Create a range and select the content inside the div
+    var range = document.createRange();
+    range.selectNode(contentDiv);
+
+    // Add the range to the selection
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+
+    // Copy the selected text to the clipboard using the Clipboard API
+    document.execCommand("copy");
+
+    // Clean up by clearing the selection
+    window.getSelection().removeAllRanges();
+}
+
+// working on copy button
+let copyButton = document.getElementById("copy-btn");
+copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
 
