@@ -26,6 +26,10 @@ nav{
     background-color: rgb(243, 247, 248);
 }
 
+.bg-top-tab-color{
+  background-color: rgb(243, 247, 248);
+}
+
 .preview-body p{
     display: inline;
 }
@@ -61,7 +65,7 @@ nav{
 
 .dark-theme{
     background-color: rgb(23, 23, 23);
-    color: white;
+    
 }
 
 
@@ -167,7 +171,7 @@ ul {
 }
 .footer-widget ul li {
   display: inline-block;
-  float: left;
+  /* float: left; */
   width: 50%;
   margin-bottom: 12px;
 }
