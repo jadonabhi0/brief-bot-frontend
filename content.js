@@ -120,4 +120,19 @@ function copyTextOnButtonClick(divId) {
 let copyButton = document.getElementById("copy-btn");
 copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
 
-console.log(window.location.href)
+
+
+/**Getting the url of the currently active tab */
+
+
+// Function to display the URL in the console
+function displayTabUrl(url) {
+    console.log(url);
+}
+
+// Send a message to the background script to get the URL
+chrome.runtime.sendMessage({ action: "getTabUrl" }, function (response) {
+    if (response.url) {
+        displayTabUrl(response.url);
+    }
+});
