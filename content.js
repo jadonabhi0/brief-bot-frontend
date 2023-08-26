@@ -7,6 +7,8 @@ darkTheme.addEventListener("click", () => {
     let tab = document.getElementById("top-tab");
     let btn = document.getElementById("theme-button");
     let model = document.getElementById("model")
+    let keySummary = document.getElementById("key-summary-btn")
+    let allSummaryBtn = document.getElementById("summary-btn");
     if (document.body.classList.contains("dark-theme")) {
 
         // setting the light mode
@@ -19,6 +21,10 @@ darkTheme.addEventListener("click", () => {
         tab.classList.add("bg-top-tab-color")
         btn.textContent = "Dark Mode"
         model.classList.remove("model-bg");
+        keySummary.classList.remove("btn-danger");
+        keySummary.classList.add("btn-outline-danger");
+        allSummaryBtn.classList.remove("btn-danger");
+        allSummaryBtn.classList.add("btn-outline-danger");
     }
     else {
         //setting the dark mode
@@ -31,6 +37,10 @@ darkTheme.addEventListener("click", () => {
         tab.classList.add("bg-dark")
         btn.textContent = "Light Mode"
         model.classList.add("model-bg")
+        keySummary.classList.remove("btn-outline-danger");
+        keySummary.classList.add("btn-danger");
+        allSummaryBtn.classList.remove("btn-outline-danger");
+        allSummaryBtn.classList.add("btn-danger");
     }
 });
 
@@ -41,8 +51,11 @@ let model = document.getElementById("model");
 // flag that defines the contentType present
 let contentType = "summary";
 
-// for triggering the summary popup
+//fetching both button
+let keySummary = document.getElementById("key-summary-btn");
 let allSummaryBtn = document.querySelector(".summary-btn");
+
+// for triggering the summary popup
 let count1 = 1;
 allSummaryBtn.addEventListener("click", () => {
     if (!model.classList.contains("show-model")) {
@@ -60,9 +73,9 @@ allSummaryBtn.addEventListener("click", () => {
 
 
 // for triggering the key-sentences summary
-let keySummary = document.getElementById("key-summary-btn");
 let count2 = 1;
 keySummary.addEventListener("click", () => {
+
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
         // load the keySummary
@@ -107,3 +120,4 @@ function copyTextOnButtonClick(divId) {
 let copyButton = document.getElementById("copy-btn");
 copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
 
+console.log(window.location.href)

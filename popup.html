@@ -49,24 +49,12 @@
             </div>
         </nav>
 
-        <div class="preview-body bg-top-tab-color d-flex justify-content-between" id="top-tab">
-            <div>
-                <button class="btn btn-outline-danger btn-sm mx-2 summary-btn" id="summary-btn">Summarize</button>
-                <button class="btn btn-outline-danger btn-sm mx-2" id="key-summary-btn">Key sentences</button>
+        <div class="preview-body bg-top-tab-color " id="top-tab">
+            <div id="div-btn">
+                <button class="btn btn-outline-danger btn-sm summary-btn" id="summary-btn">Summarize</button>
+                <button class="btn btn-outline-danger btn-sm mx-1" id="key-summary-btn">Key sentences</button>
             </div>
-            <div class="mx-3">
-                <span>
-                    <b>
-                        <p>Words : 0 </p>
-                    </b>
-                </span>
-                <span> </span>
-                <span>
-                    <b>
-                        <p>Characters : 0</p>
-                    </b>
-                </span>
-            </div>
+
         </div>
     </div>
 
@@ -137,8 +125,8 @@
     <!-- model popup coding start -->
     <div class="model" id="model">
         <div class="model-content" id="model-content">
-            <!-- <img src="./images/process.svg" alt=""> -->
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur quis neque, dolorem doloribus, soluta
+            <img src="./images/process.svg" alt="">
+            <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur quis neque, dolorem doloribus, soluta
             fugiat quod quisquam saepe labore repudiandae explicabo, odit quas officiis quam quia nostrum at similique
             totam veniam? Molestias, quae voluptates repudiandae assumenda sunt mollitia delectus quod iure nemo
             voluptatem. Ipsa, eum dolores. Quia doloribus quos possimus porro aliquam illo! Id architecto dolor porro
@@ -152,11 +140,22 @@
             voluptatibus odio voluptas, exercitationem odit saepe iste iusto veniam, labore perspiciatis. Corporis,
             molestias rerum? Soluta temporibus tempora fugit exercitationem culpa illum aliquam rem nostrum
             necessitatibus nam ducimus voluptas quo hic quae delectus, aperiam repudiandae minus animi laboriosam
-            incidunt tempore enim. Quod, pariatur!
+            incidunt tempore enim. Quod, pariatur! -->
         </div>
-        <div class="model-buttons">
-            <button class="btn btn-danger btn-sm mx-2" id="copy-btn">Copy</button>
-            <button class="btn btn-danger btn-sm mx-2" id="close-btn">Close</button>
+        <div class="model-buttons d-flex justify-content-between">
+
+            <div>
+                <button class="btn btn-danger btn-sm mx-2" id="copy-btn">Copy</button>
+                <button class="btn btn-danger btn-sm mx-2" id="close-btn">Close</button>
+            </div>
+            <div class="mx-3 counting">
+                <span>
+                    <b>
+                        <p>Words : 0 Characters : 0</p>
+                    </b>
+                </span>
+
+            </div>
         </div>
     </div>
 
