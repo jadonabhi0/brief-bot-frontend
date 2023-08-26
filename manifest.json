@@ -3,7 +3,7 @@
   "name": "BriefBot",
   "version": "1.0",
   "description": "BriefBot is a powerful Chrome extension that streamlines your online reading experience. Tired of sifting through lengthy articles and web pages? With SummarizeIt, you can effortlessly distill the essence of any webpage into concise, easy-to-digest summaries.",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "tabs"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
