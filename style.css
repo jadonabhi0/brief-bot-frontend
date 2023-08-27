@@ -7,6 +7,11 @@ body {
     width: 800px;
     height: 500px;
 }
+
+body::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
 nav{
     padding: 10px;
 }
@@ -292,5 +297,14 @@ ul {
   color: white;
 }
 
+.alert-text{
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 500px;
+  font-size: 20px;
+  line-height: 25px;
+  word-spacing: 5px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 
 

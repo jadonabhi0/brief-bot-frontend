@@ -48,15 +48,49 @@ darkTheme.addEventListener("click", () => {
 //fetching the model popup
 let model = document.getElementById("model");
 
-// flag that defines the contentType present
-let contentType = "summary";
+// getting the model-content div
+let modelContent = document.getElementById("model-content")
+
+// getting the counting 
+let countingDetails = document.getElementById("counting");
 
 //fetching both button
 let keySummary = document.getElementById("key-summary-btn");
 let allSummaryBtn = document.querySelector(".summary-btn");
 
+// object that represents the current status of mode-popup summary
+modelStatus = {
+    currentContentType: "none",
+    receivedData: "",
+    count: { words: 0, characters: 0 }
+}
+
+// function for spliting the string
+function splitString(inputString) {
+    if (typeof inputString !== 'string') {
+        throw new Error('Input must be a string');
+    }
+
+    return inputString.split('.');
+}
+
+// function count words and characters
+function countWordsAndCharacters(inputString) {
+    if (typeof inputString !== 'string') {
+        throw new Error('Input must be a string');
+    }
+
+    const words = inputString.split(/\s+/).filter(word => word.length > 0);
+    const characters = inputString.length;
+
+    return {
+        words: words.length,
+        characters: characters
+    };
+}
+
+
 // for triggering the summary popup
-let count1 = 1;
 allSummaryBtn.addEventListener("click", () => {
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
@@ -77,18 +111,110 @@ allSummaryBtn.addEventListener("click", () => {
                 .then(data => {
                     console.log('API response:', data);  // Handle the response data
 
-                    // getting the model-content div
-
-                    let modelContent = document.getElementById("model-content")
 
                     if (!data.success) {
-                        modelContent.innerHTML = data.message;
+                        // if received some useless response like received exception
+                        let copyButton = document.getElementById("copy-btn");
+                        modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
+                        setTimeout(() => {
+                            copyButton.disabled = true;
+                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">Oops! It seems like there\'s no text to summarize. Please go-to web-pages contains some text content to generate a summary.</p>'
+                        }, 4000)
                     } else {
+                        // if actual response get
                         modelContent.innerHTML = data.openai.result;
+
+                        let count = countWordsAndCharacters(data.openai.result);
+
+                        // updating the state of object
+                        modelStatus.receivedData = data.openai.result;
+                        modelStatus.currentContentType = "summary"
+                        modelStatus.isExecuted = true;
+                        modelStatus.count.words = count.words;
+                        modelStatus.count.characters = count.characters;
+
+                        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
                     }
                 })
                 .catch(error => {
+
                     console.error('Error:', error);  // Handle errors, if any
+                    copyButton.disabled = true;
+                    modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred. Our team is already working to resolve the issue and get things back on track.</p>'
+                });
+            ;
+
+        });
+
+    } else if (modelStatus.currentContentType === "keySummary") {
+        modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
+        setTimeout(() => {
+            modelContent.innerHTML = modelStatus.receivedData;
+        }, 4000)
+        modelStatus.currentContentType = "summary"
+        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+    }
+});
+
+
+// for triggering the key-sentences summary
+keySummary.addEventListener("click", () => {
+
+    if (!model.classList.contains("show-model")) {
+        model.classList.add("show-model")
+        // load the keySummary
+
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            const url = tabs[0].url;
+            console.log(url)
+
+            const apiUrl = "http://localhost:8080/api/response/allsummary";
+            // Replace with your API endpoint URL
+            const requestData = {
+                url: url
+            };
+
+            // Call the function to send the POST request
+            postDataToApi(apiUrl, requestData)
+                .then(data => {
+                    console.log('API response:', data);  // Handle the response data
+
+
+                    if (!data.success) {
+                        // if received some useless response like received exception
+                        let copyButton = document.getElementById("copy-btn");
+                        modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
+                        setTimeout(() => {
+                            copyButton.disabled = true;
+                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">Oops! It seems like there\'s no text to summarize. Please go-to web-pages contains some text content to generate a summary.</p>'
+                        }, 4000)
+                    } else {
+                        // if actual response get
+                        let array = splitString(data.openai.result);
+                        let i = 1;
+                        for (let str in array) {
+                            if (i == 1) modelContent.innerHTML = "";
+                            let text = '<p>' + i + "." + array[str] + "." + '<p/>'
+                            modelContent.innerHTML += text;
+                            if (i == array.length - 1) break;
+                            i++;
+                        }
+                        let count = countWordsAndCharacters(data.openai.result);
+                        // updating the state of object
+                        modelStatus.receivedData = data.openai.result;
+                        modelStatus.currentContentType = "keySummary"
+                        modelStatus.isExecuted = true;
+                        modelStatus.count.words = count.words;
+                        modelStatus.count.characters = count.characters;
+
+                        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+                    }
+                })
+                .catch(error => {
+
+                    console.error('Error:', error);  // Handle errors, if any
+                    copyButton.disabled = true;
+                    modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred. Our team is already working to resolve the issue and get things back on track.</p>'
                 });
             ;
 
@@ -96,34 +222,22 @@ allSummaryBtn.addEventListener("click", () => {
 
 
 
-    } else {
-        if (contentType === "summary" && count1 === 1) {
-            // if summary is already present
-            count1++
-        } else {
-            // load all summary and remove key-sentences
-        }
-    }
-});
+    } else if (modelStatus.currentContentType === "summary") {
+        modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
+        let array = splitString(modelStatus.receivedData);
+        setTimeout(() => {
+            let i = 1;
+            for (let str in array) {
+                if (i == 1) modelContent.innerHTML = "";
+                let text = '<p>' + i + "." + array[str] + "." + '<p/>'
+                modelContent.innerHTML += text;
+                if (i == array.length - 1) break;
+                i++;
+            }
+        }, 3000)
+        modelStatus.currentContentType = "keySummary"
 
-
-// for triggering the key-sentences summary
-let count2 = 1;
-keySummary.addEventListener("click", () => {
-
-    if (!model.classList.contains("show-model")) {
-        model.classList.add("show-model")
-        // load the keySummary
-
-
-
-    } else {
-        if (contentType === "keySummary" && count2 === 1) {
-            // if summary is already present
-            count2++
-        } else {
-            // load key-summary and remove all summary
-        }
+        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
     }
 });
 
