@@ -1,6 +1,6 @@
 
 let darkTheme = document.getElementById("theme-button");
-console.log(darkTheme)
+
 
 //this is the function switching the dark and light mode
 darkTheme.addEventListener("click", () => {
@@ -61,6 +61,41 @@ allSummaryBtn.addEventListener("click", () => {
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
         // load the allSummary
+        // fetching the url of currently open tab
+        chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            const url = tabs[0].url;
+            console.log(url)
+
+            const apiUrl = "http://localhost:8080/api/response/allsummary";
+            // Replace with your API endpoint URL
+            const requestData = {
+                url: url
+            };
+
+            // Call the function to send the POST request
+            postDataToApi(apiUrl, requestData)
+                .then(data => {
+                    console.log('API response:', data);  // Handle the response data
+
+                    // getting the model-content div
+
+                    let modelContent = document.getElementById("model-content")
+
+                    if (!data.success) {
+                        modelContent.innerHTML = data.message;
+                    } else {
+                        modelContent.innerHTML = data.openai.result;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);  // Handle errors, if any
+                });
+            ;
+
+        });
+
+
+
     } else {
         if (contentType === "summary" && count1 === 1) {
             // if summary is already present
@@ -79,6 +114,9 @@ keySummary.addEventListener("click", () => {
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
         // load the keySummary
+
+
+
     } else {
         if (contentType === "keySummary" && count2 === 1) {
             // if summary is already present
@@ -125,14 +163,39 @@ copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
 /**Getting the url of the currently active tab */
 
 
-// Function to display the URL in the console
-function displayTabUrl(url) {
-    console.log(url);
+
+
+
+
+
+
+
+/***************************************testing my api*************************************** */
+
+
+// Function to send a POST request with data to an API
+
+async function postDataToApi(url, data) {
+    // Options for the fetch request
+    const requestOptions = {
+        method: 'POST',                 // Use the HTTP method POST
+        headers: {
+            'Content-Type': 'application/json'  // Set the content type of the request body to JSON
+        },
+        body: JSON.stringify(data)      // Convert the data to JSON format
+    };
+
+    // Make the fetch request and return a Promise
+    try {
+        const response = await fetch(url, requestOptions);
+        const responseData = await response.json();
+        console.log(responseData)
+        return responseData;
+    } catch (error) {
+        console.error('Error:', error); // Handle any errors that occur during the request
+    }
 }
 
-// Send a message to the background script to get the URL
-chrome.runtime.sendMessage({ action: "getTabUrl" }, function (response) {
-    if (response.url) {
-        displayTabUrl(response.url);
-    }
-});
+// Example usage
+// const apiUrl = 'https://brief-bot-back-production.up.railway.app/api/response/allsummary';
+
