@@ -9,39 +9,44 @@ darkTheme.addEventListener("click", () => {
     let model = document.getElementById("model")
     let keySummary = document.getElementById("key-summary-btn")
     let allSummaryBtn = document.getElementById("summary-btn");
-    if (document.body.classList.contains("dark-theme")) {
+    let loadingOverlay = document.querySelector(".loading-overlay")
+    loadingOverlay.classList.add("show-overlay")
+    setTimeout(() => {
+        if (document.body.classList.contains("dark-theme")) {
 
-        // setting the light mode
-        document.body.classList.remove("dark-theme")
-        document.body.classList.remove("text-light")
-        document.body.classList.add("text-dark")
-        tab.classList.remove("bg-dark");
-        tab.classList.remove("text-light")
-        tab.classList.add("text-dark")
-        tab.classList.add("bg-top-tab-color")
-        btn.textContent = "Dark Mode"
-        model.classList.remove("model-bg");
-        keySummary.classList.remove("btn-danger");
-        keySummary.classList.add("btn-outline-danger");
-        allSummaryBtn.classList.remove("btn-danger");
-        allSummaryBtn.classList.add("btn-outline-danger");
-    }
-    else {
-        //setting the dark mode
-        document.body.classList.remove("text-dark")
-        document.body.classList.add("dark-theme");
-        document.body.classList.add("text-light")
-        tab.classList.remove("text-dark");
-        tab.classList.remove("bg-top-tab-color")
-        tab.classList.add("text-light")
-        tab.classList.add("bg-dark")
-        btn.textContent = "Light Mode"
-        model.classList.add("model-bg")
-        keySummary.classList.remove("btn-outline-danger");
-        keySummary.classList.add("btn-danger");
-        allSummaryBtn.classList.remove("btn-outline-danger");
-        allSummaryBtn.classList.add("btn-danger");
-    }
+            // setting the light mode
+            document.body.classList.remove("dark-theme")
+            document.body.classList.remove("text-light")
+            document.body.classList.add("text-dark")
+            tab.classList.remove("bg-dark");
+            tab.classList.remove("text-light")
+            tab.classList.add("text-dark")
+            tab.classList.add("bg-top-tab-color")
+            btn.textContent = "Dark Mode"
+            model.classList.remove("model-bg");
+            keySummary.classList.remove("btn-danger");
+            keySummary.classList.add("btn-outline-danger");
+            allSummaryBtn.classList.remove("btn-danger");
+            allSummaryBtn.classList.add("btn-outline-danger");
+        }
+        else {
+            //setting the dark mode
+            document.body.classList.remove("text-dark")
+            document.body.classList.add("dark-theme");
+            document.body.classList.add("text-light")
+            tab.classList.remove("text-dark");
+            tab.classList.remove("bg-top-tab-color")
+            tab.classList.add("text-light")
+            tab.classList.add("bg-dark")
+            btn.textContent = "Light Mode"
+            model.classList.add("model-bg")
+            keySummary.classList.remove("btn-outline-danger");
+            keySummary.classList.add("btn-danger");
+            allSummaryBtn.classList.remove("btn-outline-danger");
+            allSummaryBtn.classList.add("btn-danger");
+        }
+        loadingOverlay.classList.remove("show-overlay")
+    }, 1500)
 });
 
 
@@ -65,7 +70,7 @@ modelStatus = {
     count: { words: 0, characters: 0 }
 }
 
-// function for spliting the string
+// function for splitting the string
 function splitString(inputString) {
     if (typeof inputString !== 'string') {
         throw new Error('Input must be a string');

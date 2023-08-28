@@ -33,6 +33,7 @@ nav{
 
 .bg-top-tab-color{
   background-color: rgb(243, 247, 248);
+  z-index: 2;
 }
 
 .preview-body p{
@@ -307,4 +308,26 @@ ul {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+/*loading bar css */
+
+.loading-overlay{
+  position: absolute;
+  top: -100%;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(50, 48, 48, 0.948);
+  z-index: 10;
+}
+
+.loading-img{
+  width: 30%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.show-overlay{
+  top: 0;
+}
 
