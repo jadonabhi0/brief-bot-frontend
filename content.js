@@ -143,7 +143,7 @@ allSummaryBtn.addEventListener("click", () => {
                 })
                 .catch(error => {
 
-                    console.error('Error:', error);  // Handle errors, if any
+                    // console.error('Error:', error);  // Handle errors, if any
                     copyButton.disabled = true;
                     modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred. Our team is already working to resolve the issue and get things back on track.</p>'
                 });
@@ -217,7 +217,7 @@ keySummary.addEventListener("click", () => {
                 })
                 .catch(error => {
 
-                    console.error('Error:', error);  // Handle errors, if any
+                    // console.error('Error:', error);  // Handle errors, if any
                     copyButton.disabled = true;
                     modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred. Our team is already working to resolve the issue and get things back on track.</p>'
                 });
@@ -278,8 +278,23 @@ let copyButton = document.getElementById("copy-btn");
 copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
 
 
+// completing refresh button
+let refreshButton = document.getElementById("refresh-btn");
+let loadingOverlay = document.querySelector(".loading-overlay")
+refreshButton.addEventListener("click", () => {
+    loadingOverlay.classList.add("show-overlay");
+    setTimeout(() => {
+        if (model.classList.contains("show-model")) {
+            model.classList.remove("show-model")
+        }
+        modelStatus.currentContentType = "none";
+        modelStatus.receivedData = ""
+        modelStatus.count.words = 0;
+        modelStatus.count.characters = 0;
+        loadingOverlay.classList.remove("show-overlay")
+    }, 1000);
 
-/**Getting the url of the currently active tab */
+})
 
 
 
@@ -311,7 +326,7 @@ async function postDataToApi(url, data) {
         console.log(responseData)
         return responseData;
     } catch (error) {
-        console.error('Error:', error); // Handle any errors that occur during the request
+        // console.error('Error:', error); // Handle any errors that occur during the request
     }
 }
 
