@@ -66,6 +66,7 @@ nav{
     /* border: 1 px solid grey; */
     margin-top: 30px;
     word-spacing: 3px;
+    text-align: justify;
 }
 
 
@@ -331,3 +332,11 @@ ul {
   top: 0;
 }
 
+#about:hover{
+  border-bottom: 1px solid white;
+  color: white;
+}
+#home:hover{
+  border-bottom: 1px solid white;
+  color: white;
+}
