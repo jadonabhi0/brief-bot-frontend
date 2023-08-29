@@ -11,6 +11,7 @@ darkTheme.addEventListener("click", () => {
     let allSummaryBtn = document.getElementById("summary-btn");
     let loadingOverlay = document.querySelector(".loading-overlay")
     loadingOverlay.classList.add("show-overlay")
+
     setTimeout(() => {
         if (document.body.classList.contains("dark-theme")) {
 
@@ -59,6 +60,10 @@ let modelContent = document.getElementById("model-content")
 // getting the counting 
 let countingDetails = document.getElementById("counting");
 
+// getting timing
+
+let timingDetails = document.getElementById("timing");
+
 //fetching both button
 let keySummary = document.getElementById("key-summary-btn");
 let allSummaryBtn = document.querySelector(".summary-btn");
@@ -97,6 +102,7 @@ function countWordsAndCharacters(inputString) {
 
 // for triggering the summary popup
 allSummaryBtn.addEventListener("click", () => {
+    let copyButton = document.getElementById("copy-btn");
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
         // load the allSummary
@@ -119,26 +125,27 @@ allSummaryBtn.addEventListener("click", () => {
 
                     if (!data.success) {
                         // if received some useless response like received exception
-                        let copyButton = document.getElementById("copy-btn");
+
                         modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
                         setTimeout(() => {
                             copyButton.disabled = true;
-                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">Oops! It seems like there\'s no text to summarize. Please go-to web-pages contains some text content to generate a summary.</p>'
+                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">' + data.suggesation + '</p>'
                         }, 4000)
                     } else {
                         // if actual response get
                         modelContent.innerHTML = data.openai.result;
 
-                        let count = countWordsAndCharacters(data.openai.result);
+                        let counting = countWordsAndCharacters(data.openai.result);
 
                         // updating the state of object
                         modelStatus.receivedData = data.openai.result;
                         modelStatus.currentContentType = "summary"
                         modelStatus.isExecuted = true;
-                        modelStatus.count.words = count.words;
-                        modelStatus.count.characters = count.characters;
+                        modelStatus.count.words = counting.words;
+                        modelStatus.count.characters = counting.characters;
 
-                        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+                        timingDetails.textContent = "Estimated Reading Time : " + Math.ceil(counting.words / 3) + " sec";
+                        countingDetails.textContent = 'Words : ' + counting.words + ' Characters : ' + counting.characters;
                     }
                 })
                 .catch(error => {
@@ -157,14 +164,15 @@ allSummaryBtn.addEventListener("click", () => {
             modelContent.innerHTML = modelStatus.receivedData;
         }, 4000)
         modelStatus.currentContentType = "summary"
-        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+        timingDetails.textContent = "Estimated Reading Time : " + Math.ceil(modelStatus.count.words / 3) + " sec"
+        countingDetails.textContent = 'Words : ' + modelStatus.count.words + ' Characters : ' + modelStatus.count.characters;
     }
 });
 
 
 // for triggering the key-sentences summary
 keySummary.addEventListener("click", () => {
-
+    let copyButton = document.getElementById("copy-btn");
     if (!model.classList.contains("show-model")) {
         model.classList.add("show-model")
         // load the keySummary
@@ -187,32 +195,33 @@ keySummary.addEventListener("click", () => {
 
                     if (!data.success) {
                         // if received some useless response like received exception
-                        let copyButton = document.getElementById("copy-btn");
                         modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
                         setTimeout(() => {
                             copyButton.disabled = true;
-                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">Oops! It seems like there\'s no text to summarize. Please go-to web-pages contains some text content to generate a summary.</p>'
+                            modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + data.message + '</div> <p class="alert-text">' + data.suggesation + '</p>'
                         }, 4000)
                     } else {
                         // if actual response get
                         let array = splitString(data.openai.result);
                         let i = 1;
                         for (let str in array) {
+                            if (array[str].length <= 5) continue;
                             if (i == 1) modelContent.innerHTML = "";
                             let text = '<p>' + i + "." + array[str] + "." + '<p/>'
                             modelContent.innerHTML += text;
                             if (i == array.length - 1) break;
                             i++;
                         }
-                        let count = countWordsAndCharacters(data.openai.result);
+                        let counting = countWordsAndCharacters(data.openai.result);
                         // updating the state of object
                         modelStatus.receivedData = data.openai.result;
                         modelStatus.currentContentType = "keySummary"
                         modelStatus.isExecuted = true;
-                        modelStatus.count.words = count.words;
-                        modelStatus.count.characters = count.characters;
+                        modelStatus.count.words = counting.words;
+                        modelStatus.count.characters = counting.characters;
 
-                        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+                        timingDetails.textContent = "Estimated Reading Time : " + Math.ceil(counting.words / 3) + " sec"
+                        countingDetails.textContent = 'Words : ' + counting.words + ' Characters : ' + counting.characters;
                     }
                 })
                 .catch(error => {
@@ -233,6 +242,7 @@ keySummary.addEventListener("click", () => {
         setTimeout(() => {
             let i = 1;
             for (let str in array) {
+                if (array[str].length <= 5) continue;
                 if (i == 1) modelContent.innerHTML = "";
                 let text = '<p>' + i + "." + array[str] + "." + '<p/>'
                 modelContent.innerHTML += text;
@@ -242,7 +252,8 @@ keySummary.addEventListener("click", () => {
         }, 3000)
         modelStatus.currentContentType = "keySummary"
 
-        countingDetails.textContent = 'Words : ' + count.words + ' Characters : ' + count.characters;
+        timingDetails.textContent = "Estimated Reading Time : " + Math.ceil(modelStatus.count.words / 3) + " sec"
+        countingDetails.textContent = 'Words : ' + modelStatus.count.words + ' Characters : ' + modelStatus.count.characters;
     }
 });
 
@@ -254,28 +265,31 @@ closeBtn.addEventListener("click", () => {
 })
 
 
-// function to copy text to clipboard
-function copyTextOnButtonClick(divId) {
-    var contentDiv = document.getElementById(divId);
+function copyTextToClipboard(divId) {
+    const textToCopy = document.getElementById(divId).innerText;
 
-    // Create a range and select the content inside the div
-    var range = document.createRange();
-    range.selectNode(contentDiv);
+    const textArea = document.createElement('textarea');
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.select();
 
-    // Add the range to the selection
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
+    try {
+        document.execCommand('copy');
+        console.log('Text copied to clipboard');
+    } catch (err) {
+        console.error('Unable to copy text to clipboard:', err);
+    }
 
-    // Copy the selected text to the clipboard using the Clipboard API
-    document.execCommand("copy");
-
-    // Clean up by clearing the selection
-    window.getSelection().removeAllRanges();
+    document.body.removeChild(textArea);
 }
 
-// working on copy button
-let copyButton = document.getElementById("copy-btn");
-copyButton.addEventListener("click", copyTextOnButtonClick("model-content"))
+// Example usage:
+document.getElementById('copy-btn').addEventListener('click', function () {
+    copyTextToClipboard('model-content');
+});
+
+
+
 
 
 // completing refresh button
@@ -292,6 +306,8 @@ refreshButton.addEventListener("click", () => {
         modelStatus.count.words = 0;
         modelStatus.count.characters = 0;
         loadingOverlay.classList.remove("show-overlay")
+        modelContent.innerHTML = '<img src="./images/process.svg" alt="">'
+        document.getElementById("copy-btn").disabled = false;
     }, 1000);
 
 })

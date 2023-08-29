@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <iframe src="model.html" frameborder="0" style="display: none;"></iframe> -->
     <title>BriefBot</title>
 </head>
 
@@ -19,7 +18,7 @@
 
     <div class="loading-overlay">
         <div class="loading-img text-center">
-            <img src="images/loading.gif" alt="" width="100" height="80">
+            <img src="images/1.svg" alt="" width="100" height="80" backgroundColor="black">
         </div>
     </div>
 
@@ -134,14 +133,15 @@
     <div class="model" id="model">
         <div class="model-content" id="model-content">
             <img src="./images/process.svg" alt="">
-
-
         </div>
         <div class="model-buttons d-flex justify-content-between" id="model-buttons">
 
             <div>
                 <button class="btn btn-danger btn-sm mx-2" id="copy-btn">Copy</button>
                 <button class="btn btn-danger btn-sm mx-2" id="close-btn">Close</button>
+            </div>
+            <div>
+                <p><b id="timing">Estimated Reading Time : 0 sec</b></p>
             </div>
             <div class="mx-3 counting">
                 <span>
