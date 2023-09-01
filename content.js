@@ -6,12 +6,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**********************************************<Object>******************************************************** */
 
-    // object that represents the current status of model-popup summary
+    // object that represents the current status of model-popup
     modelStatus = {
         currentContentType: "none",
         receivedData: "",
         count: { words: 0, characters: 0 }
     }
+
+    /************************************************* Some Constants ****************************************************** */
+
+    // This is the API url
+    const API_URL = "http://localhost:8080/api/response/allsummary";
+
+    // This is the warning messages for showing an alert
+    const WARNING_MESSAGE = "Something Went Wrong"
+
+    // This is the suggesation message for showing the suggesation to the user 
+    const WARNING_SUGGESATION = "We apologize, but it seems that something unexpected has occurred, Kindly check your internet connection."
+
+
+
+
 
 
     /* ********************************************** Buttons Declarations **************************************************** */
@@ -113,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
             throw new Error('Input must be a string');
         }
 
+        // split the string by single or multiple space
         const words = inputString.split(/\s+/).filter(word => word.length > 0);
         const characters = inputString.length;
 
@@ -146,6 +162,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.body.removeChild(textArea);
     }
+
+
+
+
 
     /************************************** Button Event Listeners *************************************************** */
 
@@ -218,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(url)
 
                 // Replace with your API endpoint URL
-                const apiUrl = "http://localhost:8080/api/response/allsummary";
+                const apiUrl = API_URL;
 
                 const requestData = {
                     url: url
@@ -245,13 +265,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else { // if actual response get
 
                             // setting the useful summary
-                            modelContent.innerHTML = data.openai.result;
+                            let content = data.openai.result.replace(":", "");
+                            console.log(content)
+                            modelContent.innerHTML = content;
 
                             // finding and updating the counting of words and characters
-                            let counting = countWordsAndCharacters(data.openai.result);
+                            let counting = countWordsAndCharacters(content);
 
                             // updating the state of object
-                            modelStatus.receivedData = data.openai.result;
+                            modelStatus.receivedData = content;
                             modelStatus.currentContentType = "summary"
                             modelStatus.isExecuted = true;
                             modelStatus.count.words = counting.words;
@@ -270,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         copyButton.disabled = true;
 
                         // showing alert-box
-                        modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred.</p>'
+                        modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert">' + WARNING_MESSAGE + '</div> <p class="alert-text">' + WARNING_SUGGESATION + '</p>'
                     });
                 ;
 
@@ -316,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log(url)
 
                 // Replace with your API endpoint URL
-                const apiUrl = "http://localhost:8080/api/response/allsummary";
+                const apiUrl = API_URL;
 
                 const requestData = {
                     url: url
@@ -341,8 +363,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         } else {// if actual response get
 
+                            let content = data.openai.result.replace(":", "");
+
                             // splitting the summary into sentences
-                            let array = splitString(data.openai.result);
+                            let array = splitString(content);
                             let i = 1;
                             for (let str in array) {
                                 if (array[str].length <= 5) continue;
@@ -355,10 +379,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                             // finding and updating the counting of words and characters
-                            let counting = countWordsAndCharacters(data.openai.result);
+                            let counting = countWordsAndCharacters(content);
 
                             // updating the state of object
-                            modelStatus.receivedData = data.openai.result;
+                            modelStatus.receivedData = content;
                             modelStatus.currentContentType = "keySummary"
                             modelStatus.isExecuted = true;
                             modelStatus.count.words = counting.words;
@@ -377,7 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         copyButton.disabled = true;
 
                         // showing the alert-box
-                        modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> Something Went Wrong </div> <p class="alert-text">We apologize, but it seems that something unexpected has occurred.</p>'
+                        modelContent.innerHTML = '<div class="alert alert-danger text-center" role="alert"> ' + WARNING_MESSAGE + ' </div> <p class="alert-text">' + WARNING_SUGGESATION + '</p>'
                     });
                 ;
 
@@ -423,10 +447,13 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
 
+
     /*Adding addEventListener to close button*/
     document.getElementById('copy-btn').addEventListener('click', function () {
         copyTextToClipboard('model-content');
     });
+
+
 
     // Adding addEventListener to refresh button
     refreshButton.addEventListener("click", () => {
