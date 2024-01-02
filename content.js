@@ -4,6 +4,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 
+    
     /**********************************************<Object>******************************************************** */
 
     // object that represents the current status of model-popup
