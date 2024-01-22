@@ -11,8 +11,6 @@ body {
 body::-webkit-scrollbar { 
   display: none;  /* Safari and Chrome */
 }
-
-
 nav{
     padding: 10px;
 }
