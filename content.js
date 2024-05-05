@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
     /************************************************* Some Constants ****************************************************** */
 
     // This is the API url
+    // const API_URL = "http://brief-bot-backend-production.up.railway.app/api/response/allsummary";
+
+    /**
+     * The above url of my API is hosted on Railway-Platform, the free usage limit is going to expire between
+     * 15-sep-2023 to 17-sep-2023, if your are evaluating this assessment between this time kindly run my api on 
+     * below URL localhost:8080
+     */
     const API_URL = "http://localhost:8080/api/response/allsummary";
 
     // This is the warning messages for showing an alert
@@ -146,21 +153,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // this is the function that copy the text of an html element on clipboard
     function copyTextToClipboard(divId) {
-        const textToCopy = document.getElementById(divId).innerText;
+        const textToCopy = document.getElementById(divId);
 
-        const textArea = document.createElement('textarea');
-        textArea.value = textToCopy;
-        document.body.appendChild(textArea);
-        textArea.select();
+        // const textArea = document.createElement('textarea');
+        // textArea.value = textToCopy;
+        // document.body.appendChild(textArea);
+        // textArea.select();
 
-        try {
-            document.execCommand('copy');
-            console.log('Text copied to clipboard');
-        } catch (err) {
-            console.error('Unable to copy text to clipboard:', err);
-        }
+        // try {
+        //     document.execCommand('copy');
 
-        document.body.removeChild(textArea);
+        //     console.log('Text copied to clipboard');
+        // } catch (err) {
+        //     console.error('Unable to copy text to clipboard:', err);
+        // }
+
+        // document.body.removeChild(textArea);
+
+
+        window.navigator.clipboard.writeText(textToCopy.innerText)
+
+
     }
 
 
@@ -185,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => {
             if (document.body.classList.contains("dark-theme")) {
 
-                // toggling the light mode
+                // toggling in light mode
                 document.body.classList.remove("dark-theme")
                 document.body.classList.remove("text-light")
                 document.body.classList.add("text-dark")
@@ -201,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 allSummaryBtn.classList.add("btn-outline-danger");
             }
             else {
-                //toggling the dark mode
+                //toggling in dark mode
                 document.body.classList.remove("text-dark")
                 document.body.classList.add("dark-theme");
                 document.body.classList.add("text-light")
@@ -265,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else { // if actual response get
 
                             // setting the useful summary
-                            let content = data.openai.result.replace(":", "");
+                            let content = data.openai.result.replace(":", ""); 
                             console.log(content)
                             modelContent.innerHTML = content;
 
@@ -448,7 +461,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    /*Adding addEventListener to close button*/
+    /*Adding addEventListener to copy button*/
     document.getElementById('copy-btn').addEventListener('click', function () {
         copyTextToClipboard('model-content');
     });
