@@ -3,6 +3,7 @@
 // Wrapping code inside the DOMContentLoaded event listener
 document.addEventListener('DOMContentLoaded', function () {
 
+    
     /**********************************************<Object>******************************************************** */
 
     // object that represents the current status of model-popup
